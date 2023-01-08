@@ -36,6 +36,7 @@ module CoinmarketcapFree
   #         "credit_count": 0
   #     }
   # }
+  #
   # 'data' - Results of your query returned as an object map.
   #   'points' - Price range history
   # 'status' - Standardized status object for API calls.
@@ -46,7 +47,7 @@ module CoinmarketcapFree
     attr_accessor :id,
                   :range_time
 
-    # id Integer. Id cryptocurrency
+    # id Integer. Cryptocurrency identifier from coinmarketcap. For example, Bitcoin has the number 1
     # range_time String. Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
     def initialize(id, range_time)
       @id = id

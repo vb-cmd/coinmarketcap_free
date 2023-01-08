@@ -74,9 +74,9 @@ module CoinmarketcapFree
                   :market_cap_range
 
     def generate_uri_for_data
-      options = self.instance_variables.filter_map do |name_var|
-        "#{name_var.to_s.delete('@')}=#{self.instance_variable_get(name_var)}" unless self.instance_variable_get(name_var).nil?
-      end
+      options = self.instance_variables
+                    .select { |name_var| self.instance_variable_get(name_var).nil? }
+                    .map {|name_var| "#{name_var.to_s.delete('@')}=#{self.instance_variable_get(name_var)}"}
 
       query = "#{URL_API}?#{options.join('&')}"
       URI(query)
