@@ -11,4 +11,4 @@ gem "minitest", "~> 5.0"
 gem 'json'
 gem 'openssl'
 gem 'net-http'
-gem 'uri'
+gem 'uri', "~> 0.12.0"

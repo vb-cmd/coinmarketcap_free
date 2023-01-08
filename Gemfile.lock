@@ -1,0 +1,30 @@
+PATH
+  remote: .
+  specs:
+    coinmarketcap_free (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    json (2.6.2)
+    minitest (5.16.3)
+    net-http (0.3.0)
+      uri
+    openssl (3.0.1)
+    rake (13.0.6)
+    uri (0.12.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  coinmarketcap_free!
+  json
+  minitest (~> 5.0)
+  net-http
+  openssl
+  rake (~> 13.0)
+  uri (~> 0.12.0)
+
+BUNDLED WITH
+   2.3.26

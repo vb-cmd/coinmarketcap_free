@@ -7,14 +7,9 @@ module CoinmarketcapFree
     protected
 
     def request_to_read_data(url)
-      http = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      response = Net::HTTP.get_response(url, {'Accept': '*/*'})
 
-      request = Net::HTTP::Get.new(url)
-      request["Accept"] = '*/*'
-
-      response = http.request(request)
+      raise HTTPBadResponse if response.code.match? /[45][0-9]{2}/
 
       response.read_body
     end
@@ -25,10 +20,16 @@ module CoinmarketcapFree
 
     public
 
-    def get_json
-      url = generate_uri_for_data
-      data = request_to_read_data(url)
-      JSON.parse data
+    attr_reader :data
+    def update
+      begin
+        url = generate_uri_for_data
+        @data = request_to_read_data(url)
+      rescue
+        false
+      else
+        true
+      end
     end
   end
 end
