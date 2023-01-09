@@ -150,7 +150,7 @@ module CoinmarketcapFree
 
     def generate_uri_for_data
       options = self.instance_variables
-                    .select { |name_var| self.instance_variable_get(name_var).nil? }
+                    .select { |name_var| not self.instance_variable_get(name_var).nil? }
                     .map {|name_var| "#{name_var.to_s.delete('@')}=#{self.instance_variable_get(name_var)}"}
 
       query = "#{URL_API}?#{options.join('&')}"
