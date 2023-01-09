@@ -7,7 +7,7 @@ module CoinmarketcapFree
     protected
 
     def request_to_read_data(url)
-      response = Net::HTTP.get_response(url, {'Accept': '*/*'})
+      response = Net::HTTP.get_response(url, Hash('Accept': '*/*'))
 
       raise HTTPBadResponse if response.code.match? /[45][0-9]{2}/
 
@@ -21,6 +21,7 @@ module CoinmarketcapFree
     public
 
     attr_reader :data
+
     def update
       begin
         url = generate_uri_for_data
