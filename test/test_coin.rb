@@ -12,8 +12,12 @@ class TestCoin < Minitest::Test
   end
 
   def test_get_data
-    assert_equal true, @coin.update
-    data = JSON.parse(@coin.data)
-    assert_equal data['status']['error_message'], "SUCCESS"
+    assert @coin.update
+    parse = JSON.parse(@coin.get_data)
+    assert(parse.key?('data'))
+    assert(parse['data'].key?('points'))
+    assert(parse['data']['points'].is_a? Hash)
+    assert(parse.key?('status'))
+    assert_equal(parse['status']['error_message'], 'SUCCESS')
   end
 end

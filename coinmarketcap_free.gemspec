@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["cosmic-1"]
   spec.email = ["crossdoh@gmail.com"]
 
-  spec.summary = "A Ruby gem for communicating with the СoinmarketСap API"
-  spec.description = "A Ruby gem for communicating with the СoinmarketСap API"
+  spec.summary = "Cryptocurrency information from the Coinmarketcap site without a key."
+  spec.description = "Cryptocurrency information from the Coinmarketcap site without a key."
   spec.homepage = "https://github.com/Cosmic-1/coinmarketcap_free"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"

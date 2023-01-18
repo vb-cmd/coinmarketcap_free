@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    coinmarketcap_free (0.1.0)
+    coinmarketcap_free (0.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -19,10 +19,10 @@ PLATFORMS
 
 DEPENDENCIES
   coinmarketcap_free!
-  json
+  json (~> 2.6)
   minitest (~> 5.0)
-  net-http
-  openssl
+  net-http (~> 0.3.0)
+  openssl (~> 3.0)
   rake (~> 13.0)
   uri (~> 0.12.0)
 

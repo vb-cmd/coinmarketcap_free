@@ -2,14 +2,17 @@ require 'test_helper'
 
 class TestCryptocurrencies < Minitest::Test
   def setup
-    @cryptocurrencies = CoinmarketcapFree::Cryptocurrencies.new(10, 1)
+    @cryptocurrencies = CoinmarketcapFree::Cryptocurrencies.new(limit: 10, start: 1)
   end
 
   def test_get_data
-    cryptocurrencies = CoinmarketcapFree::Cryptocurrencies.new(10, 1)
-    assert_equal true, cryptocurrencies.update
-    data = JSON.parse(cryptocurrencies.data)
-    assert_equal(data['status']['error_message'], 'SUCCESS')
+    assert_equal true, @cryptocurrencies.update
+    parse = JSON.parse(@cryptocurrencies.get_data)
+    assert(parse.key?('data'))
+    assert(parse['data'].key?('cryptoCurrencyList'))
+    assert_equal(parse['data']['cryptoCurrencyList'].size, 10)
+    assert(parse['data']['cryptoCurrencyList'].is_a? Array)
+    assert(parse.key?('status'))
   end
 
   def test_generate_uri

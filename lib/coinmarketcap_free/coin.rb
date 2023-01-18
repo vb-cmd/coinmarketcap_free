@@ -6,9 +6,9 @@ require 'coinmarketcap_free/base'
 module CoinmarketcapFree
   # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
   #
-  # For example, json data
+  # For example, result json:
   #
-  # {
+  #   {
   #     "data": {
   #         "points": {
   #             "1673192010": {
@@ -35,10 +35,10 @@ module CoinmarketcapFree
   #         "elapsed": "2",
   #         "credit_count": 0
   #     }
-  # }
+  #   }
   #
   # 'data' - Results of your query returned as an object map.
-  #   'points' - Price range history
+  # 'points' - Price range history
   # 'status' - Standardized status object for API calls.
   class Coin < BASE
     URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart'.freeze
@@ -47,13 +47,14 @@ module CoinmarketcapFree
     attr_accessor :id,
                   :range_time
 
-    # id Integer. Cryptocurrency identifier from coinmarketcap. For example, Bitcoin has the number 1
-    # range_time String. Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
-    def initialize(id, range_time)
+    # @param id [Integer] Cryptocurrency identifier from coinmarketcap. For example, Bitcoin has the number 1
+    # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
+    def initialize(id = 1, range_time = '1D')
       @id = id
       @range_time = range_time
     end
 
+    private
     def generate_uri_for_data
       query = "#{URL_API}?id=#{id}&range=#{range_time}"
       URI(query)

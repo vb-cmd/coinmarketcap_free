@@ -20,15 +20,19 @@ module CoinmarketcapFree
 
     public
 
-    attr_reader :data
+    attr_reader :get_data
 
+    # Refresh to get data
+    # @return [false, true] true data update is good If false is bad request, wrong parameter values, or the API has been updated
     def update
       begin
         url = generate_uri_for_data
-        @data = request_to_read_data(url)
+        data = request_to_read_data(url)
       rescue
+        @get_data = nil
         false
       else
+        @get_data = data
         true
       end
     end
