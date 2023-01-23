@@ -6,7 +6,11 @@ require 'coinmarketcap_free/base'
 module CoinmarketcapFree
   # Get a list of cryptocurrencies.
   #
-  # For example, result json:
+  #   list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1)
+  #   list.update
+  #   list.get_data
+  #
+  # Result json:
   #
   #   {
   #     "data": {
@@ -94,28 +98,48 @@ module CoinmarketcapFree
   # 'cryptoCurrencyList' - Array of cryptocurrency objects matching the list options.
   # 'totalCount' - Total number of cryptocurrencies
   # 'status' - Standardized status object for API calls.
+  #
+  # If you want to sort in ascending, just write parameter:
+  #
+  #   list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1, sort_type:'asc')
+  #
+  # or
+  #
+  #   list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1)
+  #   list.sort_type = 'asc'
+  #
+  # Also see other parameters.
   class Cryptocurrencies < BASE
 
     URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing'.freeze
     private_constant :URL_API
 
-    # Parameters: limit, start, sort_by, sort_type, convert, crypto_type, tag_type, audited, aux, tags, volume_24h_range, percent_change_24h_range, circulating_supply_range, price_range, market_cap_range
+    # Returns the CoinmarketcapFree::Cryptocurrencies that's dictated by the options hash. The primary options are:
     #
-    # @param start [Integer] Default: 1. Optionally offset the start (1-based index) of the paginated list of items to return.
-    # @param limit [Integer] Default: 100. Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.
-    # @param sort_by [String] Default: "market_cap". ("rank", "name", "symbol", "date_added", "market_cap", "market_cap_strict", "price", "circulating_supply", "total_supply", "max_supply", "num_market_pairs", "volume_24h", "percent_change_1h", "percent_change_24h", "percent_change_7d", "market_cap_by_total_supply_strict", "volume_7d", "volume_30d"). What field to sort the list of cryptocurrencies by.
-    # @param sort_type [String] Default: "desc". ("asc" or "desc"). The direction in which to order cryptocurrencies against the specified sort.
-    # @param convert [String] Default: 'USD'. Default: 'USD'. Select cryptocurrencies to exchange ("AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR"). For example, many 'USD,BTC,ETH' to convert or only one 'USD'
-    # @param crypto_type [String] Default: "all". ("all", "coins", "tokens"). The type of cryptocurrency to include.
-    # @param tag_type [String] Default: "all". ("all", "defi", "filesharing"). The tag of cryptocurrency to include.
-    # @param audited [FalseClass, TrueClass] false or true
-    # @param aux [String] Optionally specify a comma-separated list of supplemental data fields to return. Pass 'ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap' to include all auxiliary fields.
-    # @param tags [String] Usually used 'mineable'.
-    # @param volume_24h_range [String] Optionally specify a threshold 24 hour USD volume to filter results by. For example, For example, '0~100000000000000000'
-    # @param percent_change_24h_range [String] Optionally specify a threshold 24 hour percent change to filter results by. For example, '0~100' or '-10~100'
-    # @param circulating_supply_range [String] Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
-    # @param price_range [String] Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
-    # @param market_cap_range [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
+    # * <tt> start: </tt> - [Integer] Default: 1. Optionally offset the start (1-based index) of the paginated list of items to return.
+    # * <tt> limit: </tt> - [Integer] Default: 100. Optionally specify the number of results to return.
+    #   Use this parameter and the "start" parameter to determine your own pagination size.
+    # * <tt> sort_by: </tt> - [String] Default: "market_cap". ("rank", "name", "symbol", "date_added", "market_cap", "market_cap_strict", "price", "circulating_supply", "total_supply", "max_supply", "num_market_pairs", "volume_24h", "percent_change_1h", "percent_change_24h", "percent_change_7d", "market_cap_by_total_supply_strict", "volume_7d", "volume_30d").
+    #   What field to sort the list of cryptocurrencies by.
+    # * <tt> sort_type: </tt> - [String] Default: "desc". ("asc" or "desc"). The direction in which to order cryptocurrencies against the specified sort.
+    # * <tt> convert: </tt> - [String] Default: 'USD'. Default: 'USD'. Select cryptocurrencies to exchange
+    #   ("AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF", "IDR", "ILS", "INR", "JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PKR", "PLN", "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR").
+    #   For example, many 'USD,BTC,ETH' to convert or only one 'USD'
+    # * <tt> crypto_typ: </tt> - [String] Default: "all". ("all", "coins", "tokens"). The type of cryptocurrency to include.
+    # * <tt> tag_type: </tt> - [String] Default: "all". ("all", "defi", "filesharing"). The tag of cryptocurrency to include.
+    # * <tt> audited: </tt> - [FalseClass, TrueClass] Show audited (true) or not (false)
+    # * <tt> aux: </tt> - [String] Optionally specify a comma-separated list of supplemental data fields to return.
+    #   Pass 'ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap' to include all auxiliary fields.
+    # * <tt> tags: </tt> - [String] If you want to see cryptocurrencies that can be mined, just type 'mineable'.
+    # * <tt> volume_24h_range: </tt> - [String] Optionally specify a threshold 24 hour USD volume to filter results by.
+    #   For example, For example, '0~100000000000000000'
+    # * <tt> percent_change_24h_range: </tt> - [String] Optionally specify a threshold 24 hour percent change to filter results by.
+    #   For example, '0~100' or '-10~100'
+    # * <tt> circulating_supply_range: </tt> - [String] Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
+    # * <tt> price_range: </tt> - [String] Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
+    # * <tt> market_cap_range: </tt> - [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
+    #
+    # @param [Hash] options
     def initialize(**options)
       @limit = options[:limit].nil? ? 100 : options[:limit] # Integer
       @start = options[:start].nil? ? 1 : options[:start] # Integer

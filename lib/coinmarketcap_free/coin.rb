@@ -6,7 +6,7 @@ require 'coinmarketcap_free/base'
 module CoinmarketcapFree
   # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
   #
-  # For example, result json:
+  # Result json:
   #
   #   {
   #     "data": {
@@ -46,7 +46,7 @@ module CoinmarketcapFree
 
     attr_accessor :id,
                   :range_time
-
+    # Returns the CoinmarketcapFree::Coin.
     # @param id [Integer] Cryptocurrency identifier from coinmarketcap. For example, Bitcoin has the number 1
     # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
     def initialize(id = 1, range_time = '1D')
