@@ -6,7 +6,7 @@ class TestCryptocurrencies < Minitest::Test
   end
 
   def test_get_data
-    assert_equal true, @cryptocurrencies.update
+    assert @cryptocurrencies.update
     parse = JSON.parse(@cryptocurrencies.get_data)
     assert(parse.key?('data'))
     assert(parse['data'].key?('cryptoCurrencyList'))

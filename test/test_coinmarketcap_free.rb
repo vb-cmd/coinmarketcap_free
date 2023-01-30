@@ -24,4 +24,14 @@ class TestCoinmarketcapFree < Minitest::Test
     assert(parse.key?('status'))
     assert_equal(parse['data']['cryptoCurrencyList'].size, 100)
   end
+
+  def test_url_img_coin
+    generate_img_url = CoinmarketcapFree.img_coin_url(1, 64)
+    original_img_url = "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
+    assert_equal generate_img_url, original_img_url
+
+    assert_raises ArgumentError do
+      CoinmarketcapFree.img_coin_url(1, 68)
+    end
+  end
 end
