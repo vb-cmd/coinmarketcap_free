@@ -6,6 +6,8 @@ module CoinmarketcapFree
   class BASE
     protected
 
+    # @param [URI] url
+    # @return [String]
     def request_to_read_data(url)
       response = Net::HTTP.get_response(url, Hash('Accept': '*/*'))
 
@@ -14,6 +16,7 @@ module CoinmarketcapFree
       response.read_body
     end
 
+    # @return [String]
     def generate_uri_for_data
       raise NotImplementedError
     end
@@ -22,7 +25,6 @@ module CoinmarketcapFree
 
     attr_reader :get_data
 
-    # Refresh to get data
     # @return [false, true] true data update is good If false is bad request, wrong parameter values, or the API has been updated
     def update
       begin
