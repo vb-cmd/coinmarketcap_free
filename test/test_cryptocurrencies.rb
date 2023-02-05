@@ -16,7 +16,7 @@ class TestCryptocurrencies < Minitest::Test
   end
 
   def test_generate_uri
-    string_uri = CoinmarketcapFree::Cryptocurrencies.const_get(:URL_API) + "?limit=10&start=1"
+    string_uri = CoinmarketcapFree::Cryptocurrencies.const_get(:URL_API) + "?limit=10&start=1&sortBy=market_cap&sortType=desc&convert=USD&cryptoType=all&tagType=all&audited=false"
     generate_uri = @cryptocurrencies.send(:generate_uri_for_data).to_s
     assert_equal generate_uri, string_uri
   end
