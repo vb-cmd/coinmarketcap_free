@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module CoinmarketcapFree
-  # Get coin logo from coinmarketcap.com
+  # Get static image of a coin from coinmarketcap.com
   module Icons
     class << self
-      # Get coin logo URI from coinmarketcap
+      # Get coin logo URI
       #
       #   logo = CoinmarketcapFree.img_coin(1, 64)
       #

@@ -3,7 +3,7 @@
 require_relative 'helper'
 
 module CoinmarketcapFree
-  # Get a list of cryptocurrencies.
+  # All about cryptocurrencies and their prices.
   module Coins
     URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing'
     private_constant :URL_API
@@ -11,7 +11,7 @@ module CoinmarketcapFree
     class << self
       # Get a list of cryptocurrencies
       #
-      #   list = CoinmarketcapFree.coins(limit: 100, start: 1)
+      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1)
       #
       # Result json:
       #
@@ -104,19 +104,19 @@ module CoinmarketcapFree
       #
       # If you want to sort in ascending, just write parameter:
       #
-      #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc')
+      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc')
       #
       # or
       #
-      #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'desc')
+      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'desc')
       #
       # You can also adding sort by:
       #
-      #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
+      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
       #
       # Convert cryptocurrency to::
       #
-      #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
+      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, convert: 'USD,BTC,ETH')
       #
       #
       # @return [String]

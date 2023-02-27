@@ -3,7 +3,7 @@
 require_relative 'helper'
 
 module CoinmarketcapFree
-  # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
+  # All history cryptocurrency and their prices.
   module CoinHistory
     URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart'
     private_constant :URL_API
@@ -11,7 +11,7 @@ module CoinmarketcapFree
     class << self
       # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
       #
-      #   history = CoinmarketcapFree.coins(1, '1D')
+      #   history = CoinmarketcapFree::CoinHistory.custom_time(1, '1D')
       #
       # Result json:
       #

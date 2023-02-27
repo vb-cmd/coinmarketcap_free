@@ -12,19 +12,10 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install coinmarketcap_free
 
-## Usage
-You can use the class ```CoinmarketcapFree::Cryptocurrencies``` or single method ```CoinmarketcapFree.coins``` like this.
+## How to use?
 
 ``` Ruby
-list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1)
-list.update
-list.get_data
-```
-
-or
-
-``` Ruby
-list = CoinmarketcapFree.coins(limit: 100, start: 1)
+list = CoinmarketcapFree::Coins.get_list()
 ```
 
 Result:
@@ -115,61 +106,59 @@ Result:
 If you want to sort in ascending, just write parameter:
 
 ``` Ruby
-list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1, sortType:'asc')
-```
-or
-``` Ruby
-list = CoinmarketcapFree::Cryptocurrencies.new(limit: 100, start: 1)
-list.sort_type = 'asc'
+list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc')
 ```
 
 You can also adding sort by:
 
 ``` Ruby
-list = CoinmarketcapFree.coins(limit: 100, start: 1, sortType:'asc', sortBy: 'name')
+list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
 ```
 
-Convert cryptocurrency to:
+Convert all cryptocurrencies to USD,BTC,ETH:
 
 ``` Ruby
-list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
+list = CoinmarketcapFree::Coins.get_list(limit: 100, 
+                                         start: 1, 
+                                         sort_type:'asc', 
+                                         sort_by: 'name', 
+                                         convert: 'USD,BTC,ETH')
 ```
 
 
-Parameters for Cryptocurrencies:
+Parameters for CoinmarketcapFree::Coins.get_list:
 
 | Name                          | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Examples                                     |
 |:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------|
 | ```limit:```                  | Integer. | Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.                                                                                                                                                                                                                                                                                                                            ||
 | ```start:```                  | Integer. | Optionally offset the start (1-based index) of the paginated list of items to return.                                                                                                                                                                                                                                                                                                                                                                              ||
-| ```sortBy:```                 | String.  | Default: ```market_cap```. (```rank```, ```name```, ```symbol```, ```date_added```, ```market_cap```, ```market_cap_strict```, ```price```, ```circulating_supply```, ```total_supply```, ```max_supply```, ```num_market_pairs```, ```volume_24h```, ```percent_change_1h```, ```percent_change_24h```, ```percent_change_7d```, ```market_cap_by_total_supply_strict```, ```volume_7d```, ```volume_30d```). What field to sort the list of cryptocurrencies by. ||
-| ```sortType:```               | String.  | Default: ```desc```. (```asc``` or ```desc```). The direction in which to order cryptocurrencies against the specified sort.                                                                                                                                                                                                                                                                                                                                       ||
+| ```sort_by:```                 | String.  | Default: ```market_cap```. (```rank```, ```name```, ```symbol```, ```date_added```, ```market_cap```, ```market_cap_strict```, ```price```, ```circulating_supply```, ```total_supply```, ```max_supply```, ```num_market_pairs```, ```volume_24h```, ```percent_change_1h```, ```percent_change_24h```, ```percent_change_7d```, ```market_cap_by_total_supply_strict```, ```volume_7d```, ```volume_30d```). What field to sort the list of cryptocurrencies by. ||
+| ```sort_type:```               | String.  | Default: ```desc```. (```asc``` or ```desc```). The direction in which to order cryptocurrencies against the specified sort.                                                                                                                                                                                                                                                                                                                                       ||
 | ```convert:```                | String.  | Default: ```USD,BTC,ETH``` . Select cryptocurrencies to exchange (```AUD```, ```BRL```, ```CAD```, ```CHF```, ```CLP```, ```CNY```, ```CZK```, ```DKK```, ```EUR```, ```GBP```, ```HKD```, ```HUF```, ```IDR```, ```ILS```, ```INR```, ```JPY```, ```KRW```, ```MXN```, ```MYR```, ```NOK```, ```NZD```, ```PHP```, ```PKR```, ```PLN```, ```RUB```, ```SEK```, ```SGD```, ```THB```, ```TRY```, ```TWD```, ```ZAR```).                                            | ```USD``` or ```USD,BTC,ETH```               |
-| ```cryptoType:```             | String.  | Default: ```all```. (```all```, ```coins```, ```tokens```). The type of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                                 ||
-| ```tagType:```                | String.  | Default: ```all```. (```all```, ```defi```, ```filesharing```). The tag of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                              ||
+| ```crypto_type:```             | String.  | Default: ```all```. (```all```, ```coins```, ```tokens```). The type of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                                 ||
+| ```tag_type:```                | String.  | Default: ```all```. (```all```, ```defi```, ```filesharing```). The tag of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                              ||
 | ```audited:```                | Boolean. | Show audited (true) or not (false)                                                                                                                                                                                                                                                                                                                                                                                                                                 ||
 | ```aux:```                    | String.  | Optionally specify a comma-separated list of supplemental data fields to return. Pass ```ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap``` to include all auxiliary fields.                                                                                                                                    | ```ath``` or ```ath, atl, high24h, low24h``` |
 | ```tags:```                   | string.  | If you want to see cryptocurrencies that can be mined, just type ```mineable```.                                                                                                                                                                                                                                                                                                                                                                                   ||
-| ```volume24hRange:```         | String.  | Optionally specify a threshold 24 hour USD volume to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
-| ```percentChange24hRange:```  | String.  | Optionally specify a threshold 24 hour percent change to filter results by.                                                                                                                                                                                                                                                                                                                                                                                        | ```0~100``` or ```-10~100```                 |
-| ```circulatingSupplyRange:``` | String.  | Optionally specify a threshold circulating supply to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
-| ```priceRange:```             | String.  | Optionally specify a threshold USD price to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                     | ```0~100000000000000000```                   |
-| ```marketCapRange:```         | String.  | Optionally specify a threshold market cap to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                    | ```0~100000000000000000```                   |
+| ```volume24h_range:```         | String.  | Optionally specify a threshold 24 hour USD volume to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
+| ```percent_change24h_range:```  | String.  | Optionally specify a threshold 24 hour percent change to filter results by.                                                                                                                                                                                                                                                                                                                                                                                        | ```0~100``` or ```-10~100```                 |
+| ```circulating_supply_range:``` | String.  | Optionally specify a threshold circulating supply to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
+| ```price_range:```             | String.  | Optionally specify a threshold USD price to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                     | ```0~100000000000000000```                   |
+| ```market_cap_range:```         | String.  | Optionally specify a threshold market cap to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                    | ```0~100000000000000000```                   |
 
 ### Returns an interval of historic market quotes:
 
-You can use the class ```CoinmarketcapFree::Coin``` or single method ```CoinmarketcapFree.coin_history``` like this.
-
 ``` Ruby
-coin = CoinmarketcapFree::Coin.new(1, '1D')
-coin.update
-coin.get_data
+coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1D')
+coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1668981600~1671659999')
 ```
 
 or
 
 ``` Ruby
-coin = CoinmarketcapFree.coin_history(1, '1D')
+coin = CoinmarketcapFree::CoinHistory.interval_day(1)
+coin = CoinmarketcapFree::CoinHistory.interval_seven_days(1)
+coin = CoinmarketcapFree::CoinHistory.interval_all_time(1)
 ```
 
 Result:
@@ -205,7 +194,7 @@ Result:
  
 ```
 
-Parameters for Coin:
+Parameters for CoinmarketcapFree::CoinHistory.custom_time:
 
 | Name             | Type     | Description                                   | Examples                                                                                                           |
 |:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
