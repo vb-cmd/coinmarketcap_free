@@ -52,8 +52,7 @@ module CoinmarketcapFree
       # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
       # @return [String]
       def custom_time(id, range_time)
-        uri = Helper.generate_uri_for_data(URL_API, { id: id, range: range_time })
-        Helper.request_to_read_data(uri)
+        Helper.http_get(URL_API, { id: id, range: range_time })
       end
 
       # Returns an interval of historic for the day

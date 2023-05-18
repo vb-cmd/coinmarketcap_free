@@ -9,13 +9,15 @@ module CoinmarketcapFree
   # Helper module for CoinmarketcapFree
   module Helper
     class << self
-      def request_to_read_data(uri_string)
-        uri = URI(uri_string)
+      def http_get(url, data = nil)
+        uri = URI(generate_url(url, data))
         Net::HTTP.get(uri)
       end
 
-      def generate_uri_for_data(url, data)
-        "#{url}?#{data.map { |key, value| "#{key}=#{value}" }.join('&')}"
+      private
+
+      def generate_url(url, data = nil)
+        "#{url}#{data ? '?' : ''}#{data.map { |key, value| "#{key}=#{value}" }.join('&')}"
       end
     end
   end

@@ -4,14 +4,14 @@ require_relative 'helper'
 
 module CoinmarketcapFree
   # All about cryptocurrencies and their prices.
-  module Coins
+  module Coin
     URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing'
     private_constant :URL_API
 
     class << self
       # Get a list of cryptocurrencies
       #
-      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1)
+      #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1)
       #
       # Result json:
       #
@@ -104,19 +104,19 @@ module CoinmarketcapFree
       #
       # If you want to sort in ascending, just write parameter:
       #
-      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc')
+      #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc')
       #
       # or
       #
-      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'desc')
+      #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'desc')
       #
       # You can also adding sort by:
       #
-      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
+      #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
       #
       # Convert cryptocurrency to::
       #
-      #   list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, convert: 'USD,BTC,ETH')
+      #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, convert: 'USD,BTC,ETH')
       #
       #
       # @return [String]
@@ -135,41 +135,26 @@ module CoinmarketcapFree
       # @param [String] circulating_supply_range Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
       # @param [String] price_range Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
       # @param [String] market_cap_range Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
-      def get_list(start: 1,
-                limit: 100,
-                sort_by: 'market_cap',
-                sort_type: 'desc',
-                convert: 'USD',
-                crypto_type: 'all',
-                tag_type: 'all',
-                audited: false,
-                aux: nil,
-                tags: nil,
-                volume24h_range: nil,
-                percent_change24h_range: nil,
-                circulating_supply_range: nil,
-                price_range: nil,
-                market_cap_range: nil)
-        options = {
-          start: start,  # Integer
-          limit: limit,  # Integer
-          sortBy: sort_by, # String
-          sortType: sort_type, # String
-          convert: convert, # String
-          cryptoType: crypto_type, # String
-          tagType: tag_type, # String
-          audited: audited, # Boolean
-          aux: aux, # String
-          tags: tags, # String
-          volume24hRange: volume24h_range, # String
-          percentChange24hRange: percent_change24h_range, # String
-          circulatingSupplyRange: circulating_supply_range, # String
-          priceRange: price_range, # String
-          marketCapRange: market_cap_range # String
-        }
+      def list(**params)
+        options = {}
 
-        uri = Helper.generate_uri_for_data(URL_API, options)
-        Helper.request_to_read_data(uri)
+        options[:start] = params[:start] || 1 # Integer
+        options[:limit] = params[:limit] || 100 # Integer
+        options[:sortBy] = params[:sort_by] || 'market_cap' # String
+        options[:sortType] = params[:sort_type] || 'desc' # String
+        options[:convert]  = params[:convert] || 'USD' # String
+        options[:cryptoType] = params[:crypto_type] || 'all' # String
+        options[:tagType] = params[:tag_type] || 'all' # String
+        options[:audited] = params[:audited] || false # Boolean
+        options[:aux] = params[:aux] # String
+        options[:tags] = params[:tags] # String
+        options[:volume24hRange] = params[:volume24h_range] # String
+        options[:percentChange24hRange] = params[:percent_change24h_range] # String
+        options[:circulatingSupplyRange] = params[:circulating_supply_range] # String
+        options[:priceRange] = params[:price_range] # String
+        options[:marketCapRange] = params[:market_cap_range] # String
+
+        Helper.http_get(URL_API, options)
       end
     end
   end

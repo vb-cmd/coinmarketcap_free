@@ -15,7 +15,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## How to use?
 
 ``` Ruby
-list = CoinmarketcapFree::Coins.get_list()
+list = CoinmarketcapFree::Coin.list
 ```
 
 Result:
@@ -106,19 +106,19 @@ Result:
 If you want to sort in ascending, just write parameter:
 
 ``` Ruby
-list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc')
+list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc')
 ```
 
 You can also adding sort by:
 
 ``` Ruby
-list = CoinmarketcapFree::Coins.get_list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
+list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
 ```
 
 Convert all cryptocurrencies to USD,BTC,ETH:
 
 ``` Ruby
-list = CoinmarketcapFree::Coins.get_list(limit: 100, 
+list = CoinmarketcapFree::Coin.list(limit: 100, 
                                          start: 1, 
                                          sort_type:'asc', 
                                          sort_by: 'name', 
@@ -126,7 +126,7 @@ list = CoinmarketcapFree::Coins.get_list(limit: 100,
 ```
 
 
-Parameters for CoinmarketcapFree::Coins.get_list:
+Parameters for CoinmarketcapFree::Coin.list:
 
 | Name                          | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Examples                                     |
 |:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------|
@@ -158,6 +158,10 @@ or
 ``` Ruby
 coin = CoinmarketcapFree::CoinHistory.interval_day(1)
 coin = CoinmarketcapFree::CoinHistory.interval_seven_days(1)
+coin = CoinmarketcapFree::CoinHistory.interval_one_month(1)
+coin = CoinmarketcapFree::CoinHistory.interval_three_months(1)
+coin = CoinmarketcapFree::CoinHistory.interval_one_year(1)
+coin = CoinmarketcapFree::CoinHistory.interval_current_year(1)
 coin = CoinmarketcapFree::CoinHistory.interval_all_time(1)
 ```
 
@@ -200,6 +204,22 @@ Parameters for CoinmarketcapFree::CoinHistory.custom_time:
 |:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
 | ```id```         | Integer. | Cryptocurrency identifier from coinmarketcap. | Bitcoin has the number 1                                                                                           |
 | ```range_time``` | String.  | Range time.                                   | ```1D```, ```7D```, ```1M```, ```3M```, ```1Y```, ```YTD```, ```ALL``` or custom range ```1668981600~1671659999``` |
+
+### Generation a link to access the picture:
+
+``` Ruby
+logo_coin_url = CoinmarketcapFree::Icon.generate_url(1, 64)
+```
+
+``` Ruby
+"https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
+```
+
+| Name             | Type     | Description                                   | Examples                                                                                                           |
+|:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
+| ```id```         | Integer. | Cryptocurrency identifier from coinmarketcap. | Bitcoin has the number 1                                                                                           |
+| ```size``` | Integer.  | Choose one size: 64, 128, 200.                                 | If choose 64, it means 64x64 |
+
 
 ## Development
 

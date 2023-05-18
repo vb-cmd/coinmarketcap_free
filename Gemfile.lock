@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    coinmarketcap_free (0.1.5)
+    coinmarketcap_free (0.2.0)
 
 GEM
   remote: https://rubygems.org/

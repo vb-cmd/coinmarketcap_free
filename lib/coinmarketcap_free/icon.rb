@@ -2,11 +2,11 @@
 
 module CoinmarketcapFree
   # Get static image of a coin from coinmarketcap.com
-  module Icons
+  module Icon
     class << self
       # Get coin logo URI
       #
-      #   logo = CoinmarketcapFree.img_coin(1, 64)
+      #   logo = CoinmarketcapFree::Icon.img_coin(1, 64)
       #
       # Result:
       #   "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
@@ -14,7 +14,7 @@ module CoinmarketcapFree
       # @param [Integer] id_coin Identify coin. For example, bitcoin has 1
       # @param [Integer] size Choose one size: 64, 128, 200
       # @return [String] Return URI from coinmarketcap
-      def get_coin_logo_uri(id_coin, size)
+      def generate_url(id_coin, size)
         size_x_size = case size
                       when 64, 128, 200
                         "#{size}x#{size}"
