@@ -5,7 +5,7 @@ require_relative "lib/coinmarketcap_free/version"
 Gem::Specification.new do |spec|
   spec.name = "coinmarketcap_free"
   spec.version = CoinmarketcapFree::VERSION
-  spec.authors = ["cosmic-1"]
+  spec.authors = ["Vitali Bakun"]
   spec.email = ["crossdoh@gmail.com"]
 
   spec.summary = "Cryptocurrency information from the Coinmarketcap site without a key."
@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
-  spec.metadata["source_code_uri"] = 'https://github.com/Cosmic-1/coinmarketcap_free'
+  spec.metadata["source_code_uri"] = 'https://github.com/vitalii-bakun/coinmarketcap_free'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
