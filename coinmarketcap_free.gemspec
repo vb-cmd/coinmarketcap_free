@@ -5,7 +5,7 @@ require_relative "lib/coinmarketcap_free/version"
 Gem::Specification.new do |spec|
   spec.name = "coinmarketcap_free"
   spec.version = CoinmarketcapFree::VERSION
-  spec.authors = ["Vitali Bakun"]
+  spec.authors = ["Vitalii Bakun"]
   spec.email = ["crossdoh@gmail.com"]
 
   spec.summary = "Cryptocurrency information from the Coinmarketcap site without a key."
