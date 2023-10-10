@@ -6,6 +6,9 @@ require 'openssl'
 require 'json'
 
 module CoinmarketcapFree
+  BASE_URI = 'https://api.coinmarketcap.com/data-api/'
+  VERSION_API = 'v3'
+
   # Helper module for CoinmarketcapFree
   module Helper
     class << self

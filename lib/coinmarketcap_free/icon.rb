@@ -4,7 +4,7 @@ module CoinmarketcapFree
   # Get static image of a coin from coinmarketcap.com
   module Icon
     class << self
-      # Get coin logo URI
+      # Generate URI image of a coin
       #
       #   logo = CoinmarketcapFree::Icon.img_coin(1, 64)
       #

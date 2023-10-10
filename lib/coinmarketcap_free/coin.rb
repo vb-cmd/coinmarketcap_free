@@ -5,8 +5,7 @@ require_relative 'helper'
 module CoinmarketcapFree
   # All about cryptocurrencies and their prices.
   module Coin
-    URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/listing'
-    private_constant :URL_API
+    URI_API = "#{BASE_URI}#{VERSION_API}/cryptocurrency/listing"
 
     class << self
       # Get a list of cryptocurrencies
@@ -120,21 +119,21 @@ module CoinmarketcapFree
       #
       #
       # @return [String]
-      # @param [Integer] start Optionally offset the start (1-based index) of the paginated list of items to return.
-      # @param [Integer] limit Optionally specify the number of results to return. Use this parameter and the 'start' parameter to determine your own pagination size.
-      # @param [String] sort_by What field to sort the list of cryptocurrencies by. ('rank', 'name', 'symbol', 'date_added', 'market_cap', 'market_cap_strict', 'price', 'circulating_supply', 'total_supply', 'max_supply', 'num_market_pairs', 'volume_24h', 'percent_change_1h', 'percent_change_24h', 'percent_change_7d', 'market_cap_by_total_supply_strict', 'volume_7d', 'volume_30d")
-      # @param [String] sort_type The direction in which to order cryptocurrencies against the specified sort. ('asc', 'desc')
-      # @param [String] convert Select cryptocurrencies to exchange ('AUD', 'BRL', 'CAD', 'CHF', 'CLP', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PKR', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'ZAR'). For example, many 'USD,BTC,ETH' to convert or only one 'USD'
-      # @param [String] crypto_type The type of cryptocurrency to include. ('all', 'coins', 'tokens')
-      # @param [String] tag_type The tag of cryptocurrency to include. ('all', 'defi', 'filesharing')
-      # @param [TrueClass, FalseClass] audited Show audited 'true' or not 'false'
-      # @param [String] aux Optionally specify a comma-separated list of supplemental data fields to return. Pass 'ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap' to include all auxiliary fields.
-      # @param [String] tags If you want to see cryptocurrencies that can be mined, just type 'mineable'.
-      # @param [String] volume24h_range Optionally specify a threshold 24 hour USD volume to filter results by. For example, '0~100000000000000000'
-      # @param [String] percent_change24h_range Optionally specify a threshold 24 hour percent change to filter results by. For example, '0~100' or '-10~100'
-      # @param [String] circulating_supply_range Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
-      # @param [String] price_range Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
-      # @param [String] market_cap_range Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
+      # @param start [Integer] Optionally offset the start (1-based index) of the paginated list of items to return.
+      # @param limit [Integer] Optionally specify the number of results to return. Use this parameter and the 'start' parameter to determine your own pagination size.
+      # @param sort_by [String] What field to sort the list of cryptocurrencies by. ('rank', 'name', 'symbol', 'date_added', 'market_cap', 'market_cap_strict', 'price', 'circulating_supply', 'total_supply', 'max_supply', 'num_market_pairs', 'volume_24h', 'percent_change_1h', 'percent_change_24h', 'percent_change_7d', 'market_cap_by_total_supply_strict', 'volume_7d', 'volume_30d")
+      # @param sort_type [String] The direction in which to order cryptocurrencies against the specified sort. ('asc', 'desc')
+      # @param convert [String] Select cryptocurrencies to exchange ('AUD', 'BRL', 'CAD', 'CHF', 'CLP', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'IDR', 'ILS', 'INR', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PKR', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'ZAR'). For example, many 'USD,BTC,ETH' to convert or only one 'USD'
+      # @param crypto_type [String] The type of cryptocurrency to include. ('all', 'coins', 'tokens')
+      # @param tag_type [String] The tag of cryptocurrency to include. ('all', 'defi', 'filesharing')
+      # @param audited [TrueClass, FalseClass] Show audited 'true' or not 'false'
+      # @param aux [String] Optionally specify a comma-separated list of supplemental data fields to return. Pass 'ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap' to include all auxiliary fields.
+      # @param tags [String] If you want to see cryptocurrencies that can be mined, just type 'mineable'.
+      # @param volume24h_range [String] Optionally specify a threshold 24 hour USD volume to filter results by. For example, '0~100000000000000000'
+      # @param percent_change24h_range [String] Optionally specify a threshold 24 hour percent change to filter results by. For example, '0~100' or '-10~100'
+      # @param circulating_supply_range [String] Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
+      # @param price_range [String] Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
+      # @param market_cap_range [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
       def list(**params)
         options = {}
 
@@ -154,7 +153,7 @@ module CoinmarketcapFree
         options[:priceRange] = params[:price_range] # String
         options[:marketCapRange] = params[:market_cap_range] # String
 
-        Helper.http_get(URL_API, options)
+        Helper.http_get(URI_API, options)
       end
     end
   end

@@ -5,13 +5,30 @@ require_relative 'helper'
 module CoinmarketcapFree
   # All history cryptocurrency and their prices.
   module CoinHistory
-    URL_API = 'https://api.coinmarketcap.com/data-api/v3/cryptocurrency/detail/chart'
-    private_constant :URL_API
+    URI_API = "#{BASE_URI}#{VERSION_API}/cryptocurrency/detail/chart"
+
+    INTERVAL_TIME = {
+      one_day: '1D',
+      seven_days: '7D',
+      one_month: '1M',
+      three_months: '3M',
+      one_year: '1Y',
+      current_year: 'YTD',
+      all: 'ALL'
+    }.freeze
 
     class << self
       # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
       #
+      # You can use one of the following intervals: 1D, 7D, 1M, 3M, 1Y, YTD, ALL
+      #
       #   history = CoinmarketcapFree::CoinHistory.custom_time(1, '1D')
+      #
+      # Also you can use this method like this:
+      #
+      #   history = CoinmarketcapFree::CoinHistory.interval_one_day(1)
+      #
+      # Just add a prefix to the method: interval_(one_day, seven_days, one_month, three_months, one_year, current_year, all)
       #
       # Result json:
       #
@@ -44,6 +61,7 @@ module CoinmarketcapFree
       #     }
       #   }
       #
+      #
       # 'data' - Results of your query returned as an object map.
       # 'points' - Price range history
       # 'status' - Standardized status object for API calls.
@@ -52,56 +70,16 @@ module CoinmarketcapFree
       # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
       # @return [String]
       def custom_time(id, range_time)
-        Helper.http_get(URL_API, { id: id, range: range_time })
+        Helper.http_get(URI_API, { id: id, range: range_time })
       end
 
-      # Returns an interval of historic for the day
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_day(id)
-        custom_time(id, '1D')
-      end
-
-      # Returns an interval of historic for the seven days
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_seven_days(id)
-        custom_time(id, '7D')
-      end
-
-      # Returns an interval of historic for the one month
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_one_month(id)
-        custom_time(id, '1M')
-      end
-
-      # Returns an interval of historic for the three months
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_three_months(id)
-        custom_time(id, '3M')
-      end
-
-      # Returns an interval of historic for the one year
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_one_year(id)
-        custom_time(id, '1Y')
-      end
-
-      # Returns an interval of historic for the current year
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_current_year(id)
-        custom_time(id, 'YTD')
-      end
-
-      # Returns an interval of historic for the current year
-      #
-      # @param [Integer] id Cryptocurrency identifier
-      def interval_all_time(id)
-        custom_time(id, 'ALL')
+      # Creating interval methods
+      INTERVAL_TIME.each do |key, value|
+        class_eval <<-RUBY, __FILE__, __LINE__ + 1
+          def interval_#{key}
+            custom_time(id, '#{value}')
+          end
+        RUBY
       end
     end
   end
