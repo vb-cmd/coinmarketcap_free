@@ -3,7 +3,7 @@
 # Get data from Coinmarketcap API without requiring an API key.
 module CoinmarketcapFree
   MAJOR = 0
-  MINOR = 3
+  MINOR = 4
   PATCH = 0
 
   private_constant :MAJOR, :MINOR, :PATCH

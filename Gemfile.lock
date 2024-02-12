@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    coinmarketcap_free (0.3.0)
+    coinmarketcap_free (0.4.0)
 
 GEM
   remote: https://rubygems.org/
@@ -28,4 +28,4 @@ DEPENDENCIES
   uri (~> 0.12.1)
 
 BUNDLED WITH
-   2.4.20
+   2.5.3
