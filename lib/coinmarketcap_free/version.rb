@@ -4,7 +4,7 @@
 module CoinmarketcapFree
   MAJOR = 0
   MINOR = 4
-  PATCH = 0
+  PATCH = 1
 
   private_constant :MAJOR, :MINOR, :PATCH
 
