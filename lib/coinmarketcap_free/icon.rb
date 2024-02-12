@@ -6,7 +6,7 @@ module CoinmarketcapFree
     class << self
       # Generate URI image of a coin
       #
-      #   logo = CoinmarketcapFree::Icon.img_coin(1, 64)
+      #   logo = CoinmarketcapFree::Icon.generate_url(1, 64)
       #
       # Result:
       #   "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
