@@ -18,6 +18,12 @@ If bundler is not being used to manage dependencies, install the gem by executin
 list = CoinmarketcapFree::Coin.list
 ```
 
+or short
+
+``` Ruby
+list = CoinmarketcapFree::coins
+```
+
 Result:
 ``` JSON
 {
@@ -151,6 +157,13 @@ Parameters for CoinmarketcapFree::Coin.list:
 ``` Ruby
 coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1D')
 coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1668981600~1671659999')
+```
+
+or short
+
+``` Ruby
+coin = CoinmarketcapFree.coin_history(1, '1D')
+coin = CoinmarketcapFree.coin_history(1, '1668981600~1671659999')
 ```
 
 or
