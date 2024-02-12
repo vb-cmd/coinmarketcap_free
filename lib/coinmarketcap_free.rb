@@ -52,7 +52,7 @@ module CoinmarketcapFree
     # @param market_cap_range [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
     # @return [Hash]
     def coins(**params)
-      data = Coin.list(params)
+      data = Coin.list(**params)
 
       return yield data if block_given?
 
