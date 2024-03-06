@@ -1,8 +1,5 @@
-# frozen_string_literal: true
-
 require_relative 'coinmarketcap_free/coin_history'
 require_relative 'coinmarketcap_free/coin'
-require_relative 'coinmarketcap_free/icon'
 require_relative 'coinmarketcap_free/version'
 
 # Get data from Coinmarketcap API without requiring an API key.
@@ -16,24 +13,21 @@ module CoinmarketcapFree
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc')
     #
-    # or
+    # or in descending
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'desc')
     #
-    # You can also adding sort by:
+    # Or sort by name with ascending:
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
     #
-    # Convert cryptocurrency to::
+    # Convert cryptocurrency to USD:
+    #
+    #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD')
+    #
+    # or combine
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
-    #
-    # Also you can use this method like this:
-    #
-    #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH') do |data|
-    #       JSON.parse(data)
-    #   end
-    #
     #
     # @param start [Integer] Optionally offset the start (1-based index) of the paginated list of items to return.
     # @param limit [Integer] Optionally specify the number of results to return. Use this parameter and the 'start' parameter to determine your own pagination size.
@@ -43,61 +37,33 @@ module CoinmarketcapFree
     # @param crypto_type [String] The type of cryptocurrency to include. ('all', 'coins', 'tokens')
     # @param tag_type [String] The tag of cryptocurrency to include. ('all', 'defi', 'filesharing')
     # @param audited [TrueClass, FalseClass] Show audited 'true' or not 'false'
-    # @param aux [String] Optionally specify a comma-separated list of supplemental data fields to return. Pass 'ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap' to include all auxiliary fields.
     # @param tags [String] If you want to see cryptocurrencies that can be mined, just type 'mineable'.
     # @param volume24h_range [String] Optionally specify a threshold 24 hour USD volume to filter results by. For example, '0~100000000000000000'
     # @param percent_change24h_range [String] Optionally specify a threshold 24 hour percent change to filter results by. For example, '0~100' or '-10~100'
     # @param circulating_supply_range [String] Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
     # @param price_range [String] Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
     # @param market_cap_range [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
-    # @return [Hash]
+    # @return [CoinmarketcapFree::Coin] Return CoinmarketcapFree::Coin object
     def coins(**params)
-      data = Coin.list(**params)
-
-      return yield data if block_given?
-
-      JSON.parse(data)
+      Coin.list(**params)
     end
 
     # Returns an interval of historic market quotes for any cryptocurrency based on time and interval parameters.
     #
-    # You can use one of the following intervals: 1D, 7D, 1M, 3M, 1Y, YTD, ALL
+    # You can use one of the following intervals: 1D, 7D, 1M, 3M, 1Y, YTD, ALL or custom range like this '1668981600~1671659999'
+    # or call the method by its full name: one_day, seven_days, one_month, three_months, one_year, current_year, all
     #
-    #   history = CoinmarketcapFree.coin_history(1, '1D')
+    #   history = CoinmarketcapFree::CoinHistory.custom_time(id_coin, '1D')
     #
-    # Also you can use this method like this:
+    # OR
     #
-    #   history = CoinmarketcapFree.coin_history(1, '1668981600~1671659999') do |data|
-    #       JSON.parse(data)
-    #   end
-    #
-    # 'data' - Results of your query returned as an object map.
-    # 'points' - Price range history
-    # 'status' - Standardized status object for API calls.
+    #   history = CoinmarketcapFree::CoinHistory.one_day(id_coin)
     #
     # @param id [Integer] Cryptocurrency identifier from coinmarketcap. For example, Bitcoin has the number 1
-    # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range '1668981600~1671659999'
-    # @return [Hash]
-    def coin_history(id, range_time)
-      data = CoinHistory.custom_time(id, range_time)
-
-      return yield data if block_given?
-
-      JSON.parse(data)
-    end
-
-    # Generate URI image of a coin
-    #
-    #   logo = CoinmarketcapFree.coin_icon(1, 64)
-    #
-    # Result:
-    #   "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
-    #
-    # @param [Integer] id_coin Identify coin. For example, bitcoin has 1
-    # @param [Integer] size Choose one size: 64, 128, 200
-    # @return [String] Return URI from coinmarketcap
-    def coin_icon(id_coin, size)
-      Icon.generate_url(id_coin, size)
+    # @param range_time [String] Range time. For example, '1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom range like this '1668981600~1671659999'
+    # @return [Array<CoinmarketcapFree::CoinHistory] Return CoinHistory object
+    def coin_histories(id, range_time)
+      CoinHistory.custom_time(id, range_time)
     end
   end
 end

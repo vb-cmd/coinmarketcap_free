@@ -1,10 +1,14 @@
-# frozen_string_literal: true
+require_relative 'test_base'
 
-$LOAD_PATH.unshift File.expand_path('../lib', __dir__)
+class TestHelper < TestBase
+  def setup
+    @uri = Helper::URI_API_CRYPTOCURRENCIES
+  end
 
-require './lib/coinmarketcap_free'
-require 'json'
-require 'minitest/autorun'
+  def test_generate_uri
+    original_uri = "#{@uri}?id=1&range=1D"
+    generate_uri = Helper.send(:generate_url, @uri, { id: 1, range: '1D' })
 
-class TestBase < Minitest::Test
+    assert_equal generate_uri, original_uri
+  end
 end

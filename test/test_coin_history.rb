@@ -1,22 +1,31 @@
-# frozen_string_literal: true
-
-require 'test_helper'
-
-CoinHistory = CoinmarketcapFree::CoinHistory
+require_relative 'test_base'
 
 class TestCoinHistory < TestBase
-  def test_get_data
-    data = CoinHistory.custom_time(1, '1D')
+  def setup
+    @id_coin = 1 # Is ID coin Bitcoin from Coinmarketcap
+    @histories = CoinHistory.custom_time(@id_coin, '1D')
+  end
 
-    refute_empty data
+  def test_get_histories
+    histories = CoinHistory.custom_time(@id_coin, '1D')
 
-    parse_data = JSON.parse(data)
+    refute_empty histories
 
-    assert(parse_data.key?('data'))
-    assert(parse_data['data'].key?('points'))
-    assert(parse_data['data']['points'].is_a?(Hash))
-    assert(parse_data.key?('status'))
+    assert(histories.is_a?(Array))
+    assert(histories.first.is_a?(CoinHistory))
+  end
 
-    assert_equal(parse_data['status']['error_message'], 'SUCCESS')
+  def test_check_return_class
+    first_coin = CoinHistory.custom_time(@id_coin, '1D').first
+    assert first_coin.is_a?(CoinHistory)
+  end
+
+  def test_check_if_exists_methods
+    names = %w[one_day seven_days one_month three_months one_year current_year all]
+            .map { |name| "CoinHistory.#{name}(@id_coin);" }
+
+    eval <<~RUBY
+      #{names.join}
+    RUBY
   end
 end

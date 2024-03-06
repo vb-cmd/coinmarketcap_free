@@ -1,21 +1,25 @@
-# frozen_string_literal: true
-
-require 'test_helper'
-
-Icon = CoinmarketcapFree::Icon
+require_relative 'test_base'
 
 class TestIcon < TestBase
   def setup
-    @original_img_uri = 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png'
+    @cryptocurrency = Coin.list(limit: 1, start: 1).first
+    @original_uri = "https://s2.coinmarketcap.com/static/img/coins/64x64/#{@cryptocurrency.id}.png"
   end
 
-  def test_generate_url_to_access_coin_logo
-    generate_img_uri = Icon.generate_url(1, 64)
+  def test_generate_uri
+    generate_uri = @cryptocurrency.get_icon(64)
 
-    assert_equal generate_img_uri, @original_img_uri
+    assert_equal generate_uri, @original_uri
 
     assert_raises ArgumentError do
-      Icon.generate_url(1, 68)
+      @cryptocurrency.get_icon(68)
     end
+  end
+
+  def test_exists_icon
+    uri = URI(@cryptocurrency.get_icon(64))
+    response = Net::HTTP.get_response(uri)
+
+    assert response.is_a?(Net::HTTPOK)
   end
 end

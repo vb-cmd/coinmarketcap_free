@@ -15,16 +15,75 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## How to use?
 
 ``` Ruby
-list = CoinmarketcapFree::Coin.list
+    coins = CoinmarketcapFree::Coin.list
 ```
 
-or short
+or
 
 ``` Ruby
-list = CoinmarketcapFree::coins
+    coins = CoinmarketcapFree.coins
 ```
 
-Result:
+####Result:
+
+Model:
+```Ruby
+[...
+#<CoinmarketcapFree::Coin:0x00000001064388a0                                     
+ @cmc_rank=1,                                                                    
+ @id=1,                                                                          
+ @market_pair_count=10861,                                                       
+ @name=#<struct Struct::FullName name="Bitcoin", symbol="BTC", slug="bitcoin">,  
+ @quotes=                                                                        
+  [#<struct Struct::Quotes                                                       
+    name="USD",                                                                  
+    price=66949.41999188314,                                                     
+    volume_24h=92116022162.1663,                                                 
+    market_cap=1315314616282.593,                                                
+    percent_change_1h=0.39277979,                                                
+    percent_change_24h=3.06216236,                                               
+    percent_change_7d=10.037655,                                                 
+    percent_change_30d=56.63354406,
+    percent_change_60d=52.21058851,
+    percent_change_90d=54.57419557,
+    percent_change_1y=197.24478021,
+    last_updated=#<DateTime: 2024-03-06T17:46:00+00:00 ((2460376j,63960s,0n),+0s,2299161j)>>],
+ @state=#<struct Struct::State last_updated=#<DateTime: 2024-03-06T17:46:00+00:00 ((2460376j,63960s,0n),+0s,2299161j)>, added=#<DateTime: 2010-07-13T00:00:00+00:00 ((2455391j,0s,0n),+0s,2299161j)>>,
+ @supply=#<struct Struct::Supply circulating=19646393.0, total=19646393.0, maximum=21000000.0>,
+ @tags=
+  ["mineable",
+   "pow",
+   "sha-256",
+   "store-of-value",
+   "state-channel",
+   "coinbase-ventures-portfolio",
+   "three-arrows-capital-portfolio",
+   "polychain-capital-portfolio",
+   "binance-labs-portfolio",
+   "blockchain-capital-portfolio",
+   "boostvc-portfolio",
+   "cms-holdings-portfolio",
+   "dcg-portfolio",
+   "dragonfly-capital-portfolio",
+   "electric-capital-portfolio",
+   "fabric-ventures-portfolio",
+   "framework-ventures-portfolio",
+   "galaxy-digital-portfolio",
+   "huobi-capital-portfolio",
+   "alameda-research-portfolio",
+   "a16z-portfolio",
+   "1confirmation-portfolio",
+   "winklevoss-capital-portfolio",
+   "usv-portfolio",
+   "placeholder-ventures-portfolio",
+   "pantera-capital-portfolio",
+   "multicoin-capital-portfolio",
+   "paradigm-portfolio",
+   "bitcoin-ecosystem",
+   "ftx-bankruptcy-estate"]>]
+```
+
+Json data:
 ``` JSON
 {
     "data": {
@@ -109,77 +168,108 @@ Result:
 }
 ```
 
-If you want to sort in ascending, just write parameter:
-
-``` Ruby
-list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc')
+Get a list of cryptocurrencies
+ ``` Ruby
+    list = CoinmarketcapFree.coins(limit: 100, start: 1)
 ```
 
-You can also adding sort by:
+If you want to sort in ascending:
 
 ``` Ruby
-list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')
+    list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc')    
 ```
 
-Convert all cryptocurrencies to USD,BTC,ETH:
+or in descending
 
 ``` Ruby
-list = CoinmarketcapFree::Coin.list(limit: 100, 
-                                         start: 1, 
-                                         sort_type:'asc', 
-                                         sort_by: 'name', 
-                                         convert: 'USD,BTC,ETH')
+    list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'desc')
 ```
 
+Also you can sort by name with ascending:
 
-Parameters for CoinmarketcapFree::Coin.list:
+``` Ruby
+    list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc', sort_by: 'name')    
+```
+
+Convert cryptocurrency to USD:
+
+``` Ruby
+    list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD')    
+```
+
+or together
+
+``` Ruby
+    list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
+```
+
+Parameters for ```CoinmarketcapFree::Coin.list``` or ```CoinmarketcapFree.coins```:
 
 | Name                          | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Examples                                     |
 |:------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------|
-| ```limit:```                  | Integer. | Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.                                                                                                                                                                                                                                                                                                                            ||
-| ```start:```                  | Integer. | Optionally offset the start (1-based index) of the paginated list of items to return.                                                                                                                                                                                                                                                                                                                                                                              ||
-| ```sort_by:```                 | String.  | Default: ```market_cap```. (```rank```, ```name```, ```symbol```, ```date_added```, ```market_cap```, ```market_cap_strict```, ```price```, ```circulating_supply```, ```total_supply```, ```max_supply```, ```num_market_pairs```, ```volume_24h```, ```percent_change_1h```, ```percent_change_24h```, ```percent_change_7d```, ```market_cap_by_total_supply_strict```, ```volume_7d```, ```volume_30d```). What field to sort the list of cryptocurrencies by. ||
-| ```sort_type:```               | String.  | Default: ```desc```. (```asc``` or ```desc```). The direction in which to order cryptocurrencies against the specified sort.                                                                                                                                                                                                                                                                                                                                       ||
-| ```convert:```                | String.  | Default: ```USD,BTC,ETH``` . Select cryptocurrencies to exchange (```AUD```, ```BRL```, ```CAD```, ```CHF```, ```CLP```, ```CNY```, ```CZK```, ```DKK```, ```EUR```, ```GBP```, ```HKD```, ```HUF```, ```IDR```, ```ILS```, ```INR```, ```JPY```, ```KRW```, ```MXN```, ```MYR```, ```NOK```, ```NZD```, ```PHP```, ```PKR```, ```PLN```, ```RUB```, ```SEK```, ```SGD```, ```THB```, ```TRY```, ```TWD```, ```ZAR```).                                            | ```USD``` or ```USD,BTC,ETH```               |
-| ```crypto_type:```             | String.  | Default: ```all```. (```all```, ```coins```, ```tokens```). The type of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                                 ||
-| ```tag_type:```                | String.  | Default: ```all```. (```all```, ```defi```, ```filesharing```). The tag of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                              ||
-| ```audited:```                | Boolean. | Show audited (true) or not (false)                                                                                                                                                                                                                                                                                                                                                                                                                                 ||
-| ```aux:```                    | String.  | Optionally specify a comma-separated list of supplemental data fields to return. Pass ```ath, atl, high24h, low24h, num_market_pairs, cmc_rank, date_added, max_supply, circulating_supply, total_supply, volume_7d, volume_30d, self_reported_circulating_supply, self_reported_market_cap``` to include all auxiliary fields.                                                                                                                                    | ```ath``` or ```ath, atl, high24h, low24h``` |
-| ```tags:```                   | string.  | If you want to see cryptocurrencies that can be mined, just type ```mineable```.                                                                                                                                                                                                                                                                                                                                                                                   ||
-| ```volume24h_range:```         | String.  | Optionally specify a threshold 24 hour USD volume to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
-| ```percent_change24h_range:```  | String.  | Optionally specify a threshold 24 hour percent change to filter results by.                                                                                                                                                                                                                                                                                                                                                                                        | ```0~100``` or ```-10~100```                 |
-| ```circulating_supply_range:``` | String.  | Optionally specify a threshold circulating supply to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
-| ```price_range:```             | String.  | Optionally specify a threshold USD price to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                     | ```0~100000000000000000```                   |
-| ```market_cap_range:```         | String.  | Optionally specify a threshold market cap to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                    | ```0~100000000000000000```                   |
+| ```limit:```                  | Integer | Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.                                                                                                                                                                                                                                                                                                                            ||
+| ```start:```                  | Integer | Optionally offset the start (1-based index) of the paginated list of items to return.                                                                                                                                                                                                                                                                                                                                                                              ||
+| ```sort_by:```                 | String  | Default: ```market_cap```. (```rank```, ```name```, ```symbol```, ```date_added```, ```market_cap```, ```market_cap_strict```, ```price```, ```circulating_supply```, ```total_supply```, ```max_supply```, ```num_market_pairs```, ```volume_24h```, ```percent_change_1h```, ```percent_change_24h```, ```percent_change_7d```, ```market_cap_by_total_supply_strict```, ```volume_7d```, ```volume_30d```). What field to sort the list of cryptocurrencies by. ||
+| ```sort_type:```               | String  | Default: ```desc```. (```asc``` or ```desc```). The direction in which to order cryptocurrencies against the specified sort.                                                                                                                                                                                                                                                                                                                                       ||
+| ```convert:```                | String  | Default: ```USD``` . Select cryptocurrencies to exchange (```AUD```, ```BRL```, ```CAD```, ```CHF```, ```CLP```, ```CNY```, ```CZK```, ```DKK```, ```EUR```, ```GBP```, ```HKD```, ```HUF```, ```IDR```, ```ILS```, ```INR```, ```JPY```, ```KRW```, ```MXN```, ```MYR```, ```NOK```, ```NZD```, ```PHP```, ```PKR```, ```PLN```, ```RUB```, ```SEK```, ```SGD```, ```THB```, ```TRY```, ```TWD```, ```ZAR```).                                            | ```USD``` or together ```USD,BTC,ETH```               |
+| ```crypto_type:```             | String  | Default: ```all```. (```all```, ```coins```, ```tokens```). The type of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                                 ||
+| ```tag_type:```                | String  | Default: ```all```. (```all```, ```defi```, ```filesharing```). The tag of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                              ||
+| ```audited:```                | Boolean | Show audited (true) or not (false)                                                                                                                                                                                                                                                                                                                                                                                                                                 ||
+| ```tags:```                   | String  | If you want to see cryptocurrencies that can be mined, just type ```mineable```.                                                                                                                                                                                                                                                                                                                                                                                   ||
+| ```volume24h_range:```         | String  | Optionally specify a threshold 24 hour USD volume to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
+| ```percent_change24h_range:```  | String  | Optionally specify a threshold 24 hour percent change to filter results by.                                                                                                                                                                                                                                                                                                                                                                                        | ```0~100``` or ```-10~100```                 |
+| ```circulating_supply_range:``` | String  | Optionally specify a threshold circulating supply to filter results by.                                                                                                                                                                                                                                                                                                                                                                                            | ```0~100000000000000000```                   |
+| ```price_range:```             | String  | Optionally specify a threshold USD price to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                     | ```0~100000000000000000```                   |
+| ```market_cap_range:```         | String  | Optionally specify a threshold market cap to filter results by.                                                                                                                                                                                                                                                                                                                                                                                                    | ```0~100000000000000000```                   |
 
 ### Returns an interval of historic market quotes:
 
 ``` Ruby
-coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1D')
-coin = CoinmarketcapFree::CoinHistory.custom_time(1, '1668981600~1671659999')
+    histories = CoinmarketcapFree::CoinHistory.custom_time(id_coin, '1D')
+    histories = CoinmarketcapFree::CoinHistory.custom_time(id_coin, '1668981600~1671659999')
 ```
 
 or short
 
 ``` Ruby
-coin = CoinmarketcapFree.coin_history(1, '1D')
-coin = CoinmarketcapFree.coin_history(1, '1668981600~1671659999')
+    histories = CoinmarketcapFree.coin_histories(id_coin, '1D')
+    histories = CoinmarketcapFree.coin_histories(id_coin, '1668981600~1671659999')
 ```
 
-or
+Also you can call method like this:
 
 ``` Ruby
-coin = CoinmarketcapFree::CoinHistory.interval_day(1)
-coin = CoinmarketcapFree::CoinHistory.interval_seven_days(1)
-coin = CoinmarketcapFree::CoinHistory.interval_one_month(1)
-coin = CoinmarketcapFree::CoinHistory.interval_three_months(1)
-coin = CoinmarketcapFree::CoinHistory.interval_one_year(1)
-coin = CoinmarketcapFree::CoinHistory.interval_current_year(1)
-coin = CoinmarketcapFree::CoinHistory.interval_all_time(1)
+    histories = CoinmarketcapFree::CoinHistory.one_day(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.seven_days(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.one_month(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.three_months(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.one_year(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.current_year(id_coin)
+    histories = CoinmarketcapFree::CoinHistory.all(id_coin)
 ```
 
-Result:
-``` JSON
+or in model ```CoinmarketcapFree::Coin```
+
+``` Ruby
+    coin = CoinmarketcapFree::Coin.list.first
+    coin.histories('1D')
+```
+
+####Result:
+
+Model:
+
+```Ruby
+ [... #<CoinmarketcapFree::CoinHistory:0x0000000106479530
+  @market_cap=1317962149986.5,
+  @price=67084.17926825049,
+  @time=2024-03-06 19:50:10 +0200,
+  @totaly_supply=19646392.999999978,
+  @volume_24h=92029823321.77837>]
+```
+
+Json:
+```JSON
  {
      "data": {
          "points": {
@@ -211,22 +301,21 @@ Result:
  
 ```
 
-Parameters for CoinmarketcapFree::CoinHistory.custom_time:
+Parameters for ```CoinmarketcapFree::CoinHistory.custom_time``` or ```CoinmarketcapFree.coin_histories```:
 
 | Name             | Type     | Description                                   | Examples                                                                                                           |
 |:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
-| ```id```         | Integer. | Cryptocurrency identifier from coinmarketcap. | Bitcoin has the number 1                                                                                           |
-| ```range_time``` | String.  | Range time.                                   | ```1D```, ```7D```, ```1M```, ```3M```, ```1Y```, ```YTD```, ```ALL``` or custom range ```1668981600~1671659999``` |
+| ```id```         | Integer | Cryptocurrency identifier from coinmarketcap. | Bitcoin has id 1                                                                                           |
+| ```range_time``` | String  | Range time.                                   | ```1D```, ```7D```, ```1M```, ```3M```, ```1Y```, ```YTD```, ```ALL``` or custom range ```1668981600~1671659999``` |
 
-### Generation a link to access the picture:
-
-``` Ruby
-logo_coin_url = CoinmarketcapFree::Icon.generate_url(1, 64)
-```
+### Generation a link:
 
 ``` Ruby
-"https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
+    coin = CoinmarketcapFree.coins.first # take first coin
+    icon = coin.get_icon(64) # generate string uri
 ```
+
+Result string: ```https://s2.coinmarketcap.com/static/img/coins/64x64/1.png```
 
 | Name             | Type     | Description                                   | Examples                                                                                                           |
 |:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|

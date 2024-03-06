@@ -1,23 +1,29 @@
-# frozen_string_literal: true
-
-require 'test_helper'
-
-Coin = CoinmarketcapFree::Coin
+require_relative 'test_base'
 
 class TestCoin < TestBase
-  def test_get_list_of_coins
-    data = Coin.list
+  def setup
+    @coins = Coin.list(limit: 50, start: 1)
+  end
 
-    refute_empty data
+  def test_get_coins
+    refute_empty @coins
+    assert_equal(@coins.count, 50)
+  end
 
-    parse = JSON.parse(data)
+  def test_check_return_class
+    first_coin = @coins.first
+    assert first_coin.is_a?(Coin)
+  end
 
-    assert(parse.key?('data'))
-    assert(parse['data'].key?('cryptoCurrencyList'))
+  def test_check_if_coin_get_total_count_when_list_is_called
+    refute_equal(Coin.total_count, 0)
+  end
 
-    assert_equal(parse['data']['cryptoCurrencyList'].size, 100)
+  def test_get_coin_histories
+    coin = @coins.first
+    histories = coin.histories('1D')
 
-    assert(parse['data']['cryptoCurrencyList'].is_a?(Array))
-    assert(parse.key?('status'))
+    refute_empty histories
+    assert(histories.first.is_a?(CoinHistory))
   end
 end
