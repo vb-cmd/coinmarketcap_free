@@ -14,7 +14,7 @@ module CoinmarketcapFree
     URI_API_CRYPTOCURRENCY_HISTORIES = "#{BASE_URI}#{VERSION_API}/cryptocurrency/detail/chart"
 
     class << self
-      # Get coin histories
+      # Get cryptocurrency of histories
       # @param data [Hash] Parameters for Coinmarketcap API
       # @return [Hash] Return coin histories
       def get_cryptocurrency_histories(data)

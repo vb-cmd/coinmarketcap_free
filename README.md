@@ -252,7 +252,14 @@ or in model ```CoinmarketcapFree::Coin```
 
 ``` Ruby
     coin = CoinmarketcapFree::Coin.list.first
-    coin.histories('1D')
+    histories = coin.histories('1D')
+    histories = coin.one_day
+    histories = coin.seven_days
+    histories = coin.one_month
+    histories = coin.three_months
+    histories = coin.one_year
+    histories = coin.current_year
+    histories = coin.all
 ```
 
 ####Result:

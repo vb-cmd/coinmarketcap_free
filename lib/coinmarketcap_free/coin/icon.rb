@@ -2,13 +2,13 @@
 
 module CoinmarketcapFree
   class Coin
-    # Generate URI image of a coin
+    # Generate a URI icon of a coin
     #
-    #   coins = CoinmarketcapFree::Coin.list(limit: 100, start: 1)
-    #   coin = coins.first
+    #   coin = CoinmarketcapFree::Coin.list.first
     #   logo = coin.get_icon(64) # size 64x64
     #
     # Result:
+    #
     #   "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
     #
     # @param [Integer] id_coin Identify coin. For example, bitcoin has 1

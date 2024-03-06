@@ -25,7 +25,7 @@ module CoinmarketcapFree
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD')
     #
-    # or combine
+    # or together
     #
     #   list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
     #
@@ -43,7 +43,7 @@ module CoinmarketcapFree
     # @param circulating_supply_range [String] Optionally specify a threshold circulating supply to filter results by. For example, '0~100000000000000000'
     # @param price_range [String] Optionally specify a threshold USD price to filter results by. For example, '0~100000000000000000'
     # @param market_cap_range [String] Optionally specify a threshold market cap to filter results by. For example, '0~100000000000000000'
-    # @return [CoinmarketcapFree::Coin] Return CoinmarketcapFree::Coin object
+    # @return [Array<CoinmarketcapFree::Coin>] Return CoinmarketcapFree::Coin object
     def coins(**params)
       Coin.list(**params)
     end

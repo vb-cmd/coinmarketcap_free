@@ -4,6 +4,7 @@ require_relative 'helper'
 require_relative 'coin/icon'
 require_relative 'coin/model'
 require_relative 'coin_history'
+require_relative 'coin/histories'
 
 module CoinmarketcapFree
   # Model for Cryptocurrency
@@ -28,13 +29,6 @@ module CoinmarketcapFree
       @quotes = quotes
     end
 
-    # Get all history cryptocurrency and their prices.
-    # @param interval [String] Select time interval. ('1D', '7D', '1M', '3M', '1Y', 'YTD', 'ALL' or custom '1668981600~1671659999')
-    # @return [Array<CoinmarketcapFree::CoinHistory>] Return CoinHistory object
-    def histories(interval)
-      CoinHistory.custom_time(@id, interval)
-    end
-
     class << self
       # Get a list of cryptocurrencies
       #
@@ -56,7 +50,7 @@ module CoinmarketcapFree
       #
       #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, convert: 'USD')
       #
-      # or combine
+      # or together
       #
       #   list = CoinmarketcapFree::Coin.list(limit: 100, start: 1, convert: 'USD,BTC,ETH')
       #
@@ -200,7 +194,7 @@ module CoinmarketcapFree
 
       private
 
-      # Generate options for method list
+      # Generate options
       # @param params [Hash]
       # @return [Hash] Return options
       def generate_options(params)

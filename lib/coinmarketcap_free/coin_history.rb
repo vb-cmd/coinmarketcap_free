@@ -35,7 +35,7 @@ module CoinmarketcapFree
       #
       #   history = CoinmarketcapFree::CoinHistory.custom_time(id_coin, '1D')
       #
-      # OR
+      # or
       #
       #   histories = CoinmarketcapFree::CoinHistory.one_day(id_coin)
       #   histories = CoinmarketcapFree::CoinHistory.seven_days(id_coin)
@@ -91,7 +91,7 @@ module CoinmarketcapFree
         json['data']['points'].map { |key, value| CoinHistory.convert_json(key, value['v']) }
       end
 
-      # Creating interval methods
+      # Create interval methods
       INTERVAL_TIME.each do |key, value|
         class_eval <<-RUBY, __FILE__, __LINE__ + 1
           def #{key}(id)
