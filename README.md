@@ -24,7 +24,7 @@ or
     coins = CoinmarketcapFree.coins
 ```
 
-####Result:
+#### Result:
 
 Model:
 ```Ruby
@@ -168,7 +168,7 @@ Json data:
 }
 ```
 
-Get a list of cryptocurrencies
+Get a list of cryptocurrencies:
  ``` Ruby
     list = CoinmarketcapFree.coins(limit: 100, start: 1)
 ```
@@ -179,7 +179,7 @@ If you want to sort in ascending:
     list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'asc')    
 ```
 
-or in descending
+or in descending:
 
 ``` Ruby
     list = CoinmarketcapFree.coins(limit: 100, start: 1, sort_type:'desc')
@@ -197,7 +197,7 @@ Convert cryptocurrency to USD:
     list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD')    
 ```
 
-or together
+or together:
 
 ``` Ruby
     list = CoinmarketcapFree.coins(limit: 100, start: 1, convert: 'USD,BTC,ETH')
@@ -211,7 +211,7 @@ Parameters for ```CoinmarketcapFree::Coin.list``` or ```CoinmarketcapFree.coins`
 | ```start:```                  | Integer | Optionally offset the start (1-based index) of the paginated list of items to return.                                                                                                                                                                                                                                                                                                                                                                              ||
 | ```sort_by:```                 | String  | Default: ```market_cap```. (```rank```, ```name```, ```symbol```, ```date_added```, ```market_cap```, ```market_cap_strict```, ```price```, ```circulating_supply```, ```total_supply```, ```max_supply```, ```num_market_pairs```, ```volume_24h```, ```percent_change_1h```, ```percent_change_24h```, ```percent_change_7d```, ```market_cap_by_total_supply_strict```, ```volume_7d```, ```volume_30d```). What field to sort the list of cryptocurrencies by. ||
 | ```sort_type:```               | String  | Default: ```desc```. (```asc``` or ```desc```). The direction in which to order cryptocurrencies against the specified sort.                                                                                                                                                                                                                                                                                                                                       ||
-| ```convert:```                | String  | Default: ```USD``` . Select cryptocurrencies to exchange (```AUD```, ```BRL```, ```CAD```, ```CHF```, ```CLP```, ```CNY```, ```CZK```, ```DKK```, ```EUR```, ```GBP```, ```HKD```, ```HUF```, ```IDR```, ```ILS```, ```INR```, ```JPY```, ```KRW```, ```MXN```, ```MYR```, ```NOK```, ```NZD```, ```PHP```, ```PKR```, ```PLN```, ```RUB```, ```SEK```, ```SGD```, ```THB```, ```TRY```, ```TWD```, ```ZAR```).                                            | ```USD``` or together ```USD,BTC,ETH```               |
+| ```convert:```                | String  | Default: ```USD``` . Select cryptocurrencies to exchange (```AUD```, ```BRL```, ```CAD```, ```CHF```, ```CLP```, ```CNY```, ```CZK```, ```DKK```, ```EUR```, ```GBP```, ```HKD```, ```HUF```, ```IDR```, ```ILS```, ```INR```, ```JPY```, ```KRW```, ```MXN```, ```MYR```, ```NOK```, ```NZD```, ```PHP```, ```PKR```, ```PLN```, ```RUB```, ```SEK```, ```SGD```, ```THB```, ```TRY```, ```TWD```, ```ZAR``` and etc.).                                            | ```USD``` or together ```USD,BTC,ETH```               |
 | ```crypto_type:```             | String  | Default: ```all```. (```all```, ```coins```, ```tokens```). The type of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                                 ||
 | ```tag_type:```                | String  | Default: ```all```. (```all```, ```defi```, ```filesharing```). The tag of cryptocurrency to include.                                                                                                                                                                                                                                                                                                                                                              ||
 | ```audited:```                | Boolean | Show audited (true) or not (false)                                                                                                                                                                                                                                                                                                                                                                                                                                 ||
@@ -229,7 +229,7 @@ Parameters for ```CoinmarketcapFree::Coin.list``` or ```CoinmarketcapFree.coins`
     histories = CoinmarketcapFree::CoinHistory.custom_time(id_coin, '1668981600~1671659999')
 ```
 
-or short
+or short:
 
 ``` Ruby
     histories = CoinmarketcapFree.coin_histories(id_coin, '1D')
@@ -248,7 +248,7 @@ Also you can call method like this:
     histories = CoinmarketcapFree::CoinHistory.all(id_coin)
 ```
 
-or in model ```CoinmarketcapFree::Coin```
+or in model ```CoinmarketcapFree::Coin```:
 
 ``` Ruby
     coin = CoinmarketcapFree::Coin.list.first
@@ -262,7 +262,7 @@ or in model ```CoinmarketcapFree::Coin```
     histories = coin.all
 ```
 
-####Result:
+#### Result:
 
 Model:
 
@@ -315,11 +315,11 @@ Parameters for ```CoinmarketcapFree::CoinHistory.custom_time``` or ```Coinmarket
 | ```id```         | Integer | Cryptocurrency identifier from coinmarketcap. | Bitcoin has id 1                                                                                           |
 | ```range_time``` | String  | Range time.                                   | ```1D```, ```7D```, ```1M```, ```3M```, ```1Y```, ```YTD```, ```ALL``` or custom range ```1668981600~1671659999``` |
 
-### Generation a link:
+### How to generate a link to an icon:
 
 ``` Ruby
-    coin = CoinmarketcapFree.coins.first # take first coin
-    icon = coin.get_icon(64) # generate string uri
+    coin = CoinmarketcapFree.coins.first # Take the first coin
+    icon = coin.get_icon(64) # Generate uri
 ```
 
 Result string: ```https://s2.coinmarketcap.com/static/img/coins/64x64/1.png```
@@ -327,7 +327,7 @@ Result string: ```https://s2.coinmarketcap.com/static/img/coins/64x64/1.png```
 | Name             | Type     | Description                                   | Examples                                                                                                           |
 |:-----------------|:---------|:----------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
 | ```id```         | Integer. | Cryptocurrency identifier from coinmarketcap. | Bitcoin has the number 1                                                                                           |
-| ```size``` | Integer.  | Choose one size: 64, 128, 200.                                 | If choose 64, it means 64x64 |
+| ```size``` | Integer.  | Select one of the sizes: 64, 128, 200.                                 | If choose 64, it means 64x64 |
 
 
 ## Development
